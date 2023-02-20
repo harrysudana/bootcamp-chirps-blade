@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\Chirp;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -14,7 +14,7 @@ class NewChirp extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public Chirp $chirp)
     {
         //
     }
@@ -35,8 +35,10 @@ class NewChirp extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+        ->subject("New Chirp from {$this->chirp->user->name}")
+        ->greeting("New Chirp from {$this->chirp->user->name}")
+        ->line(Str::limit($this->chirp->message, 50))
+        ->action('Go to Chirper', url('/'))
                     ->line('Thank you for using our application!');
     }
 
