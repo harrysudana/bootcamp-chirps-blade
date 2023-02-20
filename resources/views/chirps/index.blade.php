@@ -9,6 +9,14 @@
             >{{ old('message') }}</textarea>
             <x-input-error :messages="$errors->get('message')" class="mt-2" />
             <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
+            
+            @if (session()->has('success'))
+                <div x-data="{ show: true }"  x-init="setTimeout(() => show = false, 3000)" x-show="show">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+
+
         </form>
     </div>
 </x-app-layout>

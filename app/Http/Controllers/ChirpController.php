@@ -38,7 +38,7 @@ class ChirpController extends Controller
         ]);
 
         $request->user()->chirps()->create($validated);
-
+        session()->flash('success', 'Success message');
         return redirect(route('chirps.index'));
     }
 
